@@ -3,126 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사과</title>
+    <title>나의 웹페이지</title>
 
     <style>
-        html,body {
-            height:100%;
+        html, body {
+            height: 100%;
         }
         header {
-            background-color: olive; color:white; padding:20px;
-            height: 10%;
+            background-color: olive;
+            color: white;
+            padding: 20px;
         }
-        nav{
-            padding:5px;
-            background-color:cadetblue;
-            color:white;
+        header a {
+            text-decoration: none;
+            color: white;
+        }
+        header a:hover {
+            text-decoration: underline;
+            color: black;
+        }
+        nav {
+            background-color: cadetblue;
+            color: white;
+            padding: 5px;
         }
         nav ul {
             list-style: none;
         }
         nav ul li {
             display: inline;
-            padding-left: 20px;
+            padding: 15px;
         }
-        nav a {
+        nav ul li a {
             text-decoration: none;
             color: white;
         }
-        nav a:hover {
+        nav ul li a:hover{
             color: black;
             text-decoration: underline;
         }
-        
         section {
-            background-color: beige;
-            padding:5px;
-            float:left;
-            width:65%;
-            text-align: center;
-        }
-        section img {
+            background-color: salmon;
+            width: 65%;
             float: left;
-            width: 40%;
-            padding-bottom: 2%;
+        }
+        article {
+            background-color: white;
         }
         aside {
             background-color: bisque;
-            padding:5px;
-            float:right;
-            width:33%;
-        }
-        #h3 {
-            clear: both;
+            width: 32%;
+            float: right;
         }
         footer {
-        clear:both;
-        background-color: gray;
+            background-color: lightsteelblue;
+            clear: both;
         }
         footer ul {
             list-style: none;
         }
         footer ul li {
-            color: white;
             display: inline;
-            padding-left: 5%;
+            padding: 15px;
         }
     </style>
 </head>
 <body>
+    <header><h1><a href="index.html">Vaggie Shop</a></h1></header>
 
-    <header>
-        <h1>Veggie Shop</h1>
-    </header>
-    <nav> 
-        <ul>
-            <li><a href = "#fruits" target="_blank"> Fresh Fruits </a></li>
-            <li><a href = "#veggies"> Fresh Veggies </a></li>
-            <li><a href="#salads">Fresh Salads</a></li>
-            <li>Seeds and Nuts</li>
-            <li>Gift Box</li>
-           
-        </ul>
+    <nav>
+    <ul>
+        <li><a href="#fruits">Fresh Fruits</a></li>
+        <li><a href="#veggies">Fresh Vaggies</a></li>
+        <li><a href="#salad">Fresh Salad</a></li>
+        <li><a href="">Nuts and Seeds</a></li>
+        <li><a href="">Gift Boxes</a></li>
+        <li><a href="bmi.html" target="_blank">BMI</a></li>
+        <li><a href="login.html" target="_blank">로그인</a></li>
+        <li><a href="signup.html" target="_blank">회원가입</a></li>
+    </ul>
     </nav>
 
     <section>
-        <article>
-        <h1>탐스럽게 익은 신선한 사과, 한 입의 상쾌함!</h1>
+    <img src="image/veggies.jpg" width="650" height="350">
 
-        <img src="image/apple2.jpg" width="300">
+    <p>"신선함을 당신의 식탁에!"<br>
+        매일 아침 들어오는 신선한 채소와 과일로 건강한 하루를 시작하세요<br>
+        저희 가게에서 자연의 맛을 만나보세요!<br></p>
 
-        <form action="index.php" method="get">
-            선호지역: 
-            <input type="radio" name="location" value="andong"> 안동 
-            <input type="radio" name="location" value="chungju"> 충주<br>
-            <input type="radio" name="location" id="munkyung"> 문경 
-            <input type="radio" name="location" id="chungsong"> 청송<br>
-            <br>
-            수량: 
-            <select name="price">
-                <option value="5000">500g 5000원</option>
-                <option value="5000">500g 5000원</option>
-                <option value="5000">500g 5000원</option>
-                <option value="5000">500g 5000원</option>
-                <option value="5000">500g 5000원</option>
-                <option value="5000">500g 5000원</option>
-            </select><br>
-            <br>
-            <input type="submit" value="장바구니" onclick="alert('장바구니에 정상적으로 담겼습니다!')">
-            <input type="submit" value="구매하기">
-        </form>
-        <br>
-        <h3 id="h3">지금 막 수확한 달고 아삭한 사과,<br>입안 가득 퍼지는 자연의 맛을 느껴보세요.</h3>
+    <article id="a01">
+    <h2 id="fruits">Fresh Fruits</h2>
+    <a href="apple.html" target="_blank"><img src="image/apple.jpg" width="150" height="150"></a>
+    <a href="banana.html" target="_blank"><img src="image/banana.jpg" width="150" height="150"></a>
+    <a href="berries.html" target="_blank"><img src="image/berries.jpg" width="150" height="150"></a>
+    <a href="orange.html" target="_blank"><img src="image/orange.jpg" width="150" height="150"></a>
+    <br>
+    </article>
+
+    <article id="a02">
+    <h2 id="veggies">Fresh Veggies</h2>
+    <a href="apple.html" target="_blank"><img src="image/onion.jpg" width="150" height="150"></a>
+    <a href="banana.html" target="_blank"><img src="image/pumpkin.jpg" width="150" height="150"></a>
+    <a href="berries.html" target="_blank"><img src="image/tomato.jpg" width="150" height="150"></a>
+    <a href="orange.html" target="_blank"><img src="image/broccoli.jpg" width="150" height="150"></a>
+    <br>
+    </article>
+
+    <article id="a03">
+    <h2 id="salad">Fresh Salads</h2>
+    <a href="apple.html" target="_blank"><img src="image/salad1.jpg" width="150" height="150"></a>
+    <a href="banana.html" target="_blank"><img src="image/salad2.jpg" width="150" height="150"></a>
+    <a href="berries.html" target="_blank"><img src="image/salad3.jpg" width="150" height="150"></a>
+    <a href="orange.html" target="_blank"><img src="image/pasta.jpg" width="150" height="150"></a>
+    <br>
     </article>
     </section>
 
     <aside>
         <h3>광고</h3>
-        <h4>땅에서 식탁까지, 신선함 그래로!</h4>
+        <h4>땅에서 식탁까지, 신선함 그대로</h4>
         <p>가장 가까운 농장에서 바로 당신의 집으로!</p>
-        
-        <a href="#"><img src="image/delivery.jpg" width="300"></a>
-        <a href="#"><img src="image/farm.jpg" width="300"></a>
+        <img src="image/delivery.jpg" width="300"><br>
+        <img src="image/farm.jpg" width="300">
         <p>오늘 수확한 신선한 야채와 채소를 매일 바로 배달해 드립니다.</p>
         <ul>
             <li>매일 아침 수확한 채소</li>
@@ -131,17 +133,17 @@
             <li>신선도 100% 보장</li>
             <li>주문 후 바로 배송</li>
         </ul>
-        <p>귀한 손님을 위한 특별한 식탁, 건강한 일상을 위한 신선함을 누려보세요.</p>
     </aside>
 
     <footer>
         <ul>
-            <li> 회사소개</li>
-            <li> 개인정보보호정책</li>
-            <li> 인재채용</li>
-            <li> 공지사항</li>
-            <li> Q&A</li>
+            <li>회사소개</li>
+            <li>개인정보보호정책</li>
+            <li>인재채용</li>
+            <li>공지사항</li>
+            <li>Q&A</li>
         </ul>
     </footer>
+
 </body>
 </html>
