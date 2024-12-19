@@ -1,108 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chihuahua or Muffin?</title>
+    <title>치와와 아니면 머핀?</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
+            background-color: #F1E4FF;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
+        
+        .container {
+            background-color: white;
+            width: 45%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #5F4B8B;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        h1:hover {
+            transform: scale(1.05);
+        }
+
+        #imageInput {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 2px solid #5F4B8B;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border 0.3s ease;
+        }
+        #imageInput:hover {
+            border-color: #F9B24E;
+        }
+
+        button {
+            background-color: #F9B24E;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #5F4B8B;
+        }
+        
         #preview img {
             max-width: 300px;
             margin-top: 10px;
+            display: block;
         }
-        #label-container div {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        button {
+
+        .result-box {
+            background-color: #5F4B8B;
+            color: white;
+            font-size: 1.5em;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Chihuahua or Muffin?</h1>
-    <p>Upload an image to find out!</p>
-    <input type="file" id="imageInput" accept="image/*">
-    <div id="preview">
-        <img src="intro.png" id="uploadedImage" alt="Uploaded Image">
-    </div>
-    <button id="predictButton" disabled>Analyze Image</button> <!-- ★ 결과 분석 버튼 -->
-    <div id="label-container"></div>
+    <div class="container">
+        <h1>치와와, 혹은 머핀?</h1>
+        <input type="file" id="imageInput" accept="image/*">
+        <div id="preview">
+            <img src="intro.png" id="uploadedImage" alt="Uploaded Image">
+        </div>
+        <button id="predictButton" disabled>분석하기</button>
+        <div id="label-container" class="hidden"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-    <script type="text/javascript">
-        const URL = "./"; // 로컬 서버 경로
-    
-        let model, labelContainer, maxPredictions;
-        let uploadedImageElement = null;
-    
-        async function init() {
-            const modelURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
-            console.log("Model loading from:", modelURL);
-    
-            try {
-                model = await tmImage.load(modelURL, metadataURL);
-                maxPredictions = model.getTotalClasses();
-                labelContainer = document.getElementById("label-container");
-                for (let i = 0; i < maxPredictions; i++) {
-                    labelContainer.appendChild(document.createElement("div"));
+        <div id="resultMessage" class="hidden result-box"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+        <script>
+            const URL = "my_model/";
+            let model, maxPredictions, uploadedImageElement = null;
+
+            async function init() {
+                const modelURL = URL + "model.json";
+                const metadataURL = URL + "metadata.json";
+
+                try {
+                    model = await tmImage.load(modelURL, metadataURL);
+                    maxPredictions = model.getTotalClasses();
+                    console.log("모델이 성공적으로 로드되었습니다.");
+                } catch (error) {
+                    console.error("모델 로드 실패:", error);
                 }
-                console.log("Model loaded successfully!");
-            } catch (error) {
-                console.error("Model loading failed:", error);
             }
-        }
-    
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-    
-            const imgElement = document.getElementById("uploadedImage");
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                imgElement.src = e.target.result;
-                imgElement.onload = function () {
-                    uploadedImageElement = imgElement;
-                    document.getElementById("predictButton").disabled = false;
+
+            function handleImageUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const imgElement = document.getElementById("uploadedImage");
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imgElement.src = e.target.result;
+                    imgElement.onload = function () {
+                        uploadedImageElement = imgElement;
+                        document.getElementById("predictButton").disabled = false;
+                    };
                 };
-            };
-            reader.readAsDataURL(file);
-        }
-    
-        async function predict() {
-            if (!model) {
-                console.error("Model is not loaded yet.");
-                return;
+                reader.readAsDataURL(file);
             }
-            if (!uploadedImageElement) {
-                console.warn("No image to analyze!");
-                return;
+
+            async function predict() {
+                if (!model || !uploadedImageElement) return;
+
+                try {
+                    const prediction = await model.predict(uploadedImageElement);
+                    const resultMessage = document.getElementById("resultMessage");
+                    const labelContainer = document.getElementById("label-container");
+
+                    labelContainer.classList.add("hidden");
+
+                    console.log(prediction);
+
+                    let message = "";
+                    if (prediction[0].className === "치와와" && prediction[0].probability > 0.5) {
+                        message = "넌 치와와야!!";
+                    } else if (prediction[1].className === "머핀" && prediction[1].probability > 0.3) {
+                        message = "넌 머핀이야!!";
+                    } else {
+                        message = "분석할 수 없습니다. 이미지가 올바르지 않거나 불확실합니다.";
+                    }
+
+                    resultMessage.innerHTML = message;
+                    resultMessage.classList.remove("hidden");
+
+                } catch (error) {
+                    console.error("예측 실패:", error);
+                }
             }
-    
-            console.log("Running prediction...");
-            try {
-                const prediction = await model.predict(uploadedImageElement);
-                prediction.forEach((p, i) => {
-                    labelContainer.childNodes[i].innerHTML = `${p.className}: ${(p.probability * 100).toFixed(2)}%`;
-                });
-            } catch (error) {
-                console.error("Prediction failed:", error);
-            }
-        }
-    
-        init();
-        document.getElementById("imageInput").addEventListener("change", handleImageUpload);
-        document.getElementById("predictButton").addEventListener("click", predict);
-    </script>
+
+            init();
+            document.getElementById("imageInput").addEventListener("change", handleImageUpload);
+            document.getElementById("predictButton").addEventListener("click", predict);
+        </script>
+    </div>
 </body>
 </html>
